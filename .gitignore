@@ -1,3 +1,4 @@
 /pre-git/
 /react-router-4/node_modules/
 /react-with-redux/node_modules/
+*.log
