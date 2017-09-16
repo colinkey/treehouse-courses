@@ -4,22 +4,6 @@ import Player from "../components/Player.js";
 import Header from "../components/Header.js";
 
 export default class Scoreboard extends Component {
-  state = {
-    players: [
-      {
-        name: "Jim Hoskins",
-        score: 31
-      },
-      {
-        name: "Andrew Chalkley",
-        score: 20
-      },
-      {
-        name: "Alena Holligan",
-        score: 50
-      }
-    ]
-  };
   onScoreChange = (index, delta) => {
     this.state.players[index].score += delta;
     this.setState(this.state);
