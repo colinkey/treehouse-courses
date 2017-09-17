@@ -9,5 +9,7 @@ There will be files in this repo that are either incomplete or have been upon on
 
 ### Courses Completed in this Repo
 
-| **React Router 4 Basics** | Completed Sept. 10, 2017 |
-| **Building Applications with React and Redux** | Completed Sept. 17, 2017 |
+|Course|Completion Date|
+|---|---|
+| **React Router 4 Basics** | Sept. 10, 2017 |
+| **Building Applications with React and Redux** | Sept. 17, 2017 |
