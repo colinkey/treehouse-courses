@@ -1,19 +1,28 @@
 import * as PlayerActionTypes from "../actiontypes/player.js";
 
-const initialState = [
-  {
-    name: "Jim Hoskins",
-    score: 31
-  },
-  {
-    name: "Andrew Chalkley",
-    score: 20
-  },
-  {
-    name: "Alena Holligan",
-    score: 50
-  }
-];
+const initialState = {
+  players: [
+    {
+      name: "Jim Hoskins",
+      score: 31,
+      created: "1/2/2013",
+      updated: "1/3/2013"
+    },
+    {
+      name: "Andrew Chalkley",
+      score: 20,
+      created: "1/4/2013",
+      updated: "1/5/2013"
+    },
+    {
+      name: "Alena Holligan",
+      score: 50,
+      created: "1/6/2013",
+      updated: "1/7/2013"
+    }
+  ],
+  selectedPlayerIndex: -1
+};
 
 export default function Player(state = initialState, action) {
   switch (action.type) {
@@ -32,7 +41,7 @@ export default function Player(state = initialState, action) {
       ];
     case PlayerActionTypes.UPDATE_PLAYER_SCORE:
       return state.map((player, index) => {
-        if (index === player.index) {
+        if (index === action.index) {
           return {
             ...player,
             score: player.score + action.score
@@ -40,6 +49,13 @@ export default function Player(state = initialState, action) {
         }
         return player;
       });
+    case PlayerActionTypes.SELECT_PLAYER:
+      return [
+        ...state,
+        {
+          updated: Date.now()
+        }
+      ];
     default:
       return state;
   }
