@@ -1,7 +1,38 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import GuestList from "./GuestList.js";
 
 class App extends Component {
+  state = {
+    guests: [
+      {
+        name: "Jacqueline",
+        isConfirmed: false
+      },
+      {
+        name: "Johan",
+        isConfirmed: true
+      }
+    ]
+  };
+
+  toggleConfirmationAt = indexOfChange =>
+    this.setState({
+      guests: this.state.guests.map((guest, index) => {
+        if (index === indexOfChange) {
+          return {
+            ...guest,
+            isConfirmed: !guest.isConfirmed
+          };
+        }
+        return guest;
+      })
+    });
+
+  getTotalInvited = () => this.state.guests.length;
+  // getAttendingGuests = () => this.state.guests.filter();
+  // getUnconfirmedGuests = () => getTotalInvited - getAttendingGuests;
+
   render() {
     return (
       <div className="App">
@@ -10,7 +41,9 @@ class App extends Component {
           <p>A Treehouse App</p>
           <form>
             <input type="text" value="Safia" placeholder="Invite Someone" />
-            <button type="submit" name="submit" value="submit">Submit</button>
+            <button type="submit" name="submit" value="submit">
+              Submit
+            </button>
           </form>
         </header>
         <div className="main">
@@ -36,31 +69,10 @@ class App extends Component {
               </tr>
             </tbody>
           </table>
-          <ul>
-            <li className="pending"><span>Safia</span></li>
-            <li className="responded"><span>Iver</span>
-              <label>
-                <input type="checkbox" checked /> Confirmed
-              </label>
-              <button>edit</button>
-              <button>remove</button>
-            </li>
-            <li className="responded"><span>Corrina</span>
-              <label>
-                <input type="checkbox" checked /> Confirmed
-              </label>
-              <button>edit</button>
-              <button>remove</button>
-            </li>
-            <li>
-              <span>Joel</span>
-              <label>
-                <input type="checkbox" /> Confirmed
-              </label>
-              <button>edit</button>
-              <button>remove</button>
-            </li>
-          </ul>
+          <GuestList
+            guests={this.state.guests}
+            toggleConfirmationAt={this.toggleConfirmationAt}
+          />
         </div>
       </div>
     );
