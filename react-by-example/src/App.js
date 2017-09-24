@@ -1,79 +1,113 @@
 import React, { Component } from "react";
 import "./App.css";
-import GuestList from "./GuestList.js";
+
+import Header from "./Header";
+import MainContent from "./MainContent";
 
 class App extends Component {
   state = {
-    guests: [
-      {
-        name: "Jacqueline",
-        isConfirmed: false
-      },
-      {
-        name: "Johan",
-        isConfirmed: true
-      }
-    ]
+    isFiltered: false,
+    pendingGuest: "",
+    guests: []
   };
 
-  toggleConfirmationAt = indexOfChange =>
+  lastUniqueId = 0;
+
+  nextUniqueId = () => {
+    let nextId = this.lastUniqueId + 1;
+    this.lastUniqueId++;
+    return nextId;
+  };
+
+  toggleGuestPropertyAt = (property, id) =>
     this.setState({
-      guests: this.state.guests.map((guest, index) => {
-        if (index === indexOfChange) {
+      guests: this.state.guests.map(guest => {
+        if (id === guest.id) {
           return {
             ...guest,
-            isConfirmed: !guest.isConfirmed
+            [property]: !guest[property]
           };
         }
         return guest;
       })
     });
 
+  toggleConfirmationAt = id => this.toggleGuestPropertyAt("isConfirmed", id);
+
+  removeGuestAt = id =>
+    this.setState({
+      guests: this.state.guests.filter(guest => id !== guest.id)
+    });
+
+  toggleEditingAt = id => this.toggleGuestPropertyAt("isEditing", id);
+
+  setNameAt = (name, idOfChange) =>
+    this.setState({
+      guests: this.state.guests.map((guest, id) => {
+        if (id === idOfChange) {
+          return {
+            ...guest,
+            name
+          };
+        }
+        return guest;
+      })
+    });
+
+  toggleFilter = () => this.setState({ isFiltered: !this.state.isFiltered });
+
+  handleNameInput = e =>
+    this.setState({
+      pendingGuest: e.target.value
+    });
+
+  addInvitedGuest = e => {
+    e.preventDefault();
+    let id = this.nextUniqueId();
+    this.setState({
+      guests: [
+        {
+          id,
+          name: this.state.pendingGuest,
+          isConfirmed: false,
+          isEditing: false
+        },
+        ...this.state.guests
+      ],
+      pendingGuest: ""
+    });
+  };
   getTotalInvited = () => this.state.guests.length;
-  // getAttendingGuests = () => this.state.guests.filter();
-  // getUnconfirmedGuests = () => getTotalInvited - getAttendingGuests;
+  getAttendingGuests = () =>
+    this.state.guests.reduce(
+      (total, guest) => (guest.isConfirmed ? total + 1 : total),
+      0
+    );
 
   render() {
+    const totalInvited = this.getTotalInvited();
+    const numberAttending = this.getAttendingGuests();
+    const numberUnconfirmed = totalInvited - numberAttending;
     return (
       <div className="App">
-        <header>
-          <h1>RSVP</h1>
-          <p>A Treehouse App</p>
-          <form>
-            <input type="text" value="Safia" placeholder="Invite Someone" />
-            <button type="submit" name="submit" value="submit">
-              Submit
-            </button>
-          </form>
-        </header>
-        <div className="main">
-          <div>
-            <h2>Invitees</h2>
-            <label>
-              <input type="checkbox" /> Hide those who haven't responded
-            </label>
-          </div>
-          <table className="counter">
-            <tbody>
-              <tr>
-                <td>Attending:</td>
-                <td>2</td>
-              </tr>
-              <tr>
-                <td>Unconfirmed:</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>Total:</td>
-                <td>3</td>
-              </tr>
-            </tbody>
-          </table>
-          <GuestList
-            guests={this.state.guests}
-            toggleConfirmationAt={this.toggleConfirmationAt}
-          />
-        </div>
+        <Header
+          addInvitedGuest={this.addInvitedGuest}
+          pendingGuest={this.state.pendingGuest}
+          handleNameInput={this.handleNameInput}
+        />
+        <MainContent
+          toggleFilter={this.toggleFilter}
+          isFiltered={this.state.isFiltered}
+          totalInvited={totalInvited}
+          numberAttending={numberAttending}
+          numberUnconfirmed={numberUnconfirmed}
+          guests={this.state.guests}
+          toggleConfirmationAt={this.toggleConfirmationAt}
+          toggleEditingAt={this.toggleEditingAt}
+          setNameAt={this.setNameAt}
+          removeGuestAt={this.removeGuestAt}
+          pendingGuest={this.state.pendingGuest}
+        />
       </div>
     );
   }
