@@ -13,3 +13,4 @@ There will be files in this repo that are either incomplete or have been upon on
 |---|---|
 | **React Router 4 Basics** | Sept. 10, 2017 |
 | **Building Applications with React and Redux** | Sept. 17, 2017 |
+| **React By Example** | Sept. 24, 2017 |
