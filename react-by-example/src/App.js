@@ -5,6 +5,12 @@ import "./App.css";
 import Header from "./Header";
 import MainContent from "./MainContent";
 
+//TODO
+// 1. Update firebase writing to write name to object name
+// 2. Refactor toggleGuestPropertyAt method to send toggle information to guests in firebase
+// 3. Implement read/write of lastUniqueId
+// 4. Figure out remaining methods (removeGuest, setNameAt)
+
 class App extends Component {
   state = {
     isFiltered: false,
