@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import firebase from "firebase";
 import "./App.css";
 
 import Header from "./Header";
@@ -11,6 +12,8 @@ class App extends Component {
     guests: []
   };
 
+  guestsRef = firebase.database().ref("guests");
+
   lastUniqueId = 0;
 
   nextUniqueId = () => {
@@ -19,7 +22,7 @@ class App extends Component {
     return nextId;
   };
 
-  toggleGuestPropertyAt = (property, id) =>
+  toggleGuestPropertyAt = (property, id) => {
     this.setState({
       guests: this.state.guests.map(guest => {
         if (id === guest.id) {
@@ -31,6 +34,7 @@ class App extends Component {
         return guest;
       })
     });
+  };
 
   toggleConfirmationAt = id => this.toggleGuestPropertyAt("isConfirmed", id);
 
@@ -63,17 +67,16 @@ class App extends Component {
 
   addInvitedGuest = e => {
     e.preventDefault();
-    let id = this.nextUniqueId();
+    const id = this.nextUniqueId();
+    const guestObj = {
+      id,
+      name: this.state.pendingGuest,
+      isConfirmed: false,
+      isEditing: false
+    };
+    this.guestsRef.push(guestObj);
     this.setState({
-      guests: [
-        {
-          id,
-          name: this.state.pendingGuest,
-          isConfirmed: false,
-          isEditing: false
-        },
-        ...this.state.guests
-      ],
+      guests: [guestObj, ...this.state.guests],
       pendingGuest: ""
     });
   };

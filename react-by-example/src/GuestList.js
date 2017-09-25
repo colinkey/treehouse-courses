@@ -30,7 +30,7 @@ GuestList.propTypes = {
   toggleEditingAt: PropTypes.func.isRequired,
   setNameAt: PropTypes.func.isRequired,
   isFiltered: PropTypes.bool.isRequired,
-  removeGuestAt: PropTypes.func.inRequired,
+  removeGuestAt: PropTypes.func.isRequired,
   pendingGuest: PropTypes.string.isRequired
 };
 

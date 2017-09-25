@@ -1,3 +1,4 @@
 /pre-git/
 /*/node_modules/
 *.log
+/*/src/config.js
