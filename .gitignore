@@ -2,3 +2,10 @@
 /*/node_modules/
 *.log
 /*/src/config.js
+
+/using-databases-in-python/Include
+/using-databases-in-python/Lib
+/using-databases-in-python/Scripts
+/using-databases-in-python/pyvenv.cfg
+/using-databases-in-python/pip-selfcheck.json
+/using-databases-in-python/*.db
